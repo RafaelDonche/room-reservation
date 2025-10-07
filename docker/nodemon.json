@@ -1,0 +1,7 @@
+{
+  "watch": ["app/", "routes/", "config/"],
+  "ext": "php",
+  "ignore": ["storage/", "vendor/"],
+  "exec": "php artisan queue:work --sleep=3 --tries=3",
+  "signal": "SIGINT"
+}
