@@ -1,61 +1,115 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de Reserva de Salas API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel)
+![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=for-the-badge&logo=php)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql)
+![Redis](https://img.shields.io/badge/Redis-7.x-DC382D?style=for-the-badge&logo=redis)
+![Docker](https://img.shields.io/badge/Docker-20.10%2B-2496ED?style=for-the-badge&logo=docker)
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Sobre o Projeto
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Esta é uma API RESTful para um sistema de reserva de salas.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+O projeto foi construído utilizando Laravel 12 e Docker, com foco em uma arquitetura robusta, processamento assíncrono com filas e implementação de regras de negócio, como validação de disponibilidade, capacidade e limites de uso por cliente.
 
-## Learning Laravel
+### ✨ Funcionalidades Principais
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   **Autenticação Segura:** Sistema de login baseado em token (Laravel Sanctum).
+-   **Gestão de Reservas:** Fluxo completo para criar, listar e cancelar reservas.
+-   **Confirmação Assíncrona:** As reservas são processadas em segundo plano utilizando filas no Redis para garantir uma resposta rápida da API.
+-   **Consulta de Disponibilidade:** Endpoint otimizado com cache para consultar horários livres em uma sala.
+-   **Validação de Regras de Negócio:**
+    -   Janela de reserva (duração mínima e máxima).
+    -   Validação de choque de horário.
+    -   Validação de capacidade da sala.
+    -   Limite diário de reservas por cliente.
+-   **Webhooks:** Notificações automáticas via POST para eventos de confirmação e cancelamento.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📖 Documentação da API
 
-## Laravel Sponsors
+A documentação completa dos endpoints, incluindo exemplos de requisições e respostas, está disponível no portal SwaggerHub.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+-   **[Acessar a Documentação da API](https://donchedev.portal.swaggerhub.com/room-reservation/docs/room-reservation-v-1-0-0)**
 
-### Premium Partners
+Uma coleção do Postman também está disponível no repositório para facilitar os testes: `room-reservation.postman_collection`.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🚀 Começando
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Siga os passos abaixo para configurar e executar o ambiente de desenvolvimento localmente.
 
-## Code of Conduct
+### Pré-requisitos
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   [Docker](https://www.docker.com/get-started)
+-   [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Security Vulnerabilities
+### Instalação Local
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/RafaelDonche/room-reservation.git
+    cd room-reservation
+    ```
 
-## License
+2.  **Configure as variáveis de ambiente:**
+    Copie o arquivo de exemplo `.env.example` para `.env`. As configurações padrão já estão prontas para o ambiente Docker.
+    ```bash
+    cp .env.example .env
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3.  **Construa e suba os contêineres Docker:**
+    Este comando irá construir as imagens e iniciar todos os serviços (`app`, `nginx`, `db`, `redis`, `worker`) em segundo plano.
+    ```bash
+    docker-compose up -d --build
+    ```
+
+4.  **Instale as dependências do Composer:**
+    ```bash
+    docker-compose exec app composer install
+    ```
+
+5.  **Gere a chave da aplicação Laravel:**
+    ```bash
+    docker-compose exec app php artisan key:generate
+    ```
+
+6.  **Execute as Migrations do Banco de Dados:**
+    Este comando criará todas as tabelas necessárias no banco de dados PostgreSQL.
+    ```bash
+    docker-compose exec app php artisan migrate
+    ```
+
+7.  **Execute os Seeders para popular o banco:**
+    Este comando criará salas de exemplo e um usuário de teste para que você possa usar a API imediatamente.
+    ```bash
+    docker-compose exec app php artisan db:seed
+    ```
+
+---
+
+## ▶️ Uso
+
+Após a instalação, a aplicação estará disponível em `http://localhost:8000`.
+
+-   **URL Base da API:** `http://localhost:8000/api`
+-   **Usuário de Teste (criado pelo Seeder):**
+    -   **Email:** `test@example.com`
+    -   **Senha:** `123456`
+
+    -   **Senha de outros usuários:** `password`
+
+Utilize o Postman ou a documentação no SwaggerHub para interagir com os endpoints.
+
+---
+
+## ✅ Testes
+
+Para executar a suíte de testes automatizados, utilize o seguinte comando:
+
+```bash
+docker-compose exec app php artisan test
