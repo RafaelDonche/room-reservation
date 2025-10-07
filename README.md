@@ -26,6 +26,11 @@ O projeto foi construído utilizando Laravel 12 e Docker, com foco em uma arquit
     -   Validação de capacidade da sala.
     -   Limite diário de reservas por cliente.
 -   **Webhooks:** Notificações automáticas via POST para eventos de confirmação e cancelamento.
+-   **Testes (PHPUnit):** Testes unitários e de integração, para:
+    -   Validar criação e cancelamento da reserva.
+    -   Disparo do Job pelo Observer ao alterar o status de uma reserva.
+    -   Flow de criação de reserva e disparo do Job.
+    -   Concorrência na criação de 2 reservas ao mesmo tempo.
 
 ---
 
