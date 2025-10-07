@@ -40,6 +40,20 @@ class Reservation extends Model
     }
 
     /**
+     * Aplica as regras de validação para cancelar uma reserva.
+     */
+    public function validatesCancellation(): void
+    {
+        if ($this->start_time->isPast()) {
+            throw new \Exception("Esta reserva não pode mais ser cancelada.");
+        }
+
+        if (now()->diffInHours($this->start_time) < 2) {
+            throw new \Exception("A reserva só pode ser cancelada com pelo menos 2 horas de antecedência.");
+        }
+    }
+
+    /**
      * Escopo "mestre" que aplica todos os outros filtros.
      *
      * @param Builder $query

@@ -40,6 +40,7 @@ services:
       - "5433:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./docker/db/init:/docker-entrypoint-initdb.d
     networks:
       - reserva-network
 

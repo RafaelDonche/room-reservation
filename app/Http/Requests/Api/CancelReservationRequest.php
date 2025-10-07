@@ -33,15 +33,10 @@ class CancelReservationRequest extends FormRequest
         $validator->after(function ($validator) {
             $reservation = $this->route('reservation');
 
-            // Verifica se a reserva já está cancelada ou se já ocorreu
-            if ($reservation->status === 'CANCELLED' || $reservation->start_time->isPast()) {
-                $validator->errors()->add('reservation', 'Esta reserva não pode mais ser cancelada.');
-                return;
-            }
-
-            // Só pode cancelar com 2 ou mais horas de antecedência
-            if (now()->diffInHours($reservation->start_time) < 2) {
-                $validator->errors()->add('reservation', 'A reserva só pode ser cancelada com pelo menos 2 horas de antecedência.');
+            try {
+                $reservation->validatesCancellation();
+            } catch (\Exception $e) {
+                $validator->errors()->add('reservation', $e->getMessage());
             }
         });
     }

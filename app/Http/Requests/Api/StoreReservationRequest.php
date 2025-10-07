@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Rules\ValidReservationDuration;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -35,20 +36,7 @@ class StoreReservationRequest extends FormRequest
                 'required',
                 'date',
                 'after:start_time',
-
-                function ($attribute, $value, $fail) {
-                    $startTime = Carbon::parse($this->input('start_time'));
-                    $endTime = Carbon::parse($value);
-                    $durationInMinutes = $startTime->diffInMinutes($endTime);
-
-                    if ($durationInMinutes < 30) {
-                        $fail('A duração mínima da reserva é de 30 minutos.');
-                    }
-
-                    if ($durationInMinutes > 480) {
-                        $fail('A duração máxima da reserva é de 8 horas.');
-                    }
-                },
+                new ValidReservationDuration($this->input('start_time')),
             ],
             'attendees' => 'required|integer|min:1',
             'notes' => 'nullable|string|max:1000',
